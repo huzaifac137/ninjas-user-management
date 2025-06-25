@@ -59,10 +59,13 @@ export const Signup = async (req: Request, res: Response) => {
 // all users can login using this
 export const Login = async (req: Request, res: Response) => {
   try {
-    const { email, roleId, password } = req.body;
+    const { email, password } = req.body;
 
       let user = await User.findOne({
         email: email.toLowerCase(),
+      }).populate({
+        "path" : "role",
+        "select" : "name"
       });
 
       if (!user) {
@@ -71,24 +74,7 @@ export const Login = async (req: Request, res: Response) => {
           .json({ message: "User with this email not found" });
         return;
       }
-
-      const existingRole = await Role.findById(roleId);
-      if(!existingRole){
-        res.status(StatusCodes.CONFLICT).json({ message: "Role does not exist" });
-        return;
-      }
-
-
-
-      if (user?.role?.toString() !== existingRole?._id?.toString()) {
-        res
-          .status(403)
-          .json({
-            messgae: "This account is not associated with this role",
-          });
-        return;
-      }
-
+      
       const comparepass = await bcrypt.compare(password, user.password);
       if (!comparepass) {
         res
