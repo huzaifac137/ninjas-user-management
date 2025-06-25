@@ -39,14 +39,12 @@ export const getUserById=async(req: Request , res: Response)=>{
 // only super admin or admin
 export const createUser=async(req: Request , res: Response)=>{
     try {
-        const {name , email , password , role} = req.body;
+        const {name , email , password , roleId} = req.body;
         const existingUserEmail = await User.findOne({
             email: req.body.email.toLowerCase(),
           });
 
-        const existingUserRole = await Role.findOne({
-            name: role,
-          });
+        const existingUserRole = await Role.findById(roleId);
 
           if(!existingUserRole){
             res.status(StatusCodes.CONFLICT).json({ message: "Role does not exist" });
@@ -54,7 +52,7 @@ export const createUser=async(req: Request , res: Response)=>{
           }
 
           if(existingUserRole.name==="super_admin"){
-            res.status(403).json({message : "Only one person can be a super admin at a time"});
+            res.status(403).json({message : "Cannot create a super admin using this!"});
             return;
           }
 
@@ -70,7 +68,7 @@ export const createUser=async(req: Request , res: Response)=>{
             name,
             email: email.toLowerCase(),
             password: hashedPassword,
-            role,
+            role: existingUserRole.id,
           });
           await user.save();
           res.status(201).json({message:"User created successfully",user});
@@ -82,35 +80,30 @@ export const createUser=async(req: Request , res: Response)=>{
 // only super admin
 export const updateUser=async(req: Request , res: Response)=>{
     try {
-        const {name , email  , role} = req.body;
+        const {name , email} = req.body;
 
-        const existingUserRole = await Role.findOne({
-            name: role,
-          });
-
-          if (!existingUserRole) {
-            res.status(StatusCodes.CONFLICT).json({ message: "Role does not exist" });
-            return;
-          }
-
-          if(existingUserRole.name==="super_admin"){
-            res.status(403).json({message : "Only one person can be a super admin at a time"});
-            return;
-          }
 
         const user=await User.findById(req.params.id);
         if(!user){
             res.status(404).json({message:"User not found"});
             return;
         }
+
+        const existingUserEmail = await User.findOne({
+            email: req.body.email.toLowerCase(),
+          });
+          
+          if(existingUserEmail && existingUserEmail.id !== user.id){
+            res.status(StatusCodes.CONFLICT).json({ message: "Email already exists" });
+            return;
+          }
+
+
         if(name){
             user.name=name;
         }
         if(email){
             user.email=email;
-        }
-        if(role){
-            user.role=role;
         }
 
         await user.save();
