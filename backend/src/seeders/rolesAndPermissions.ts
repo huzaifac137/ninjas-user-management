@@ -38,7 +38,7 @@ export const seedRolesAndPermissions=async(req: Request , res: Response)=>{
         for(const permission of permissions){
             const alreadyExists = await Permission.findOne({name : permission.name});
             if(!alreadyExists){
-                await Permission.create([permission] , {session});
+                await Permission.create([permission]);
             }
         }
 
@@ -46,38 +46,44 @@ export const seedRolesAndPermissions=async(req: Request , res: Response)=>{
         for(const role of roles){
             const alreadyExists = await Role.findOne({name : role.name});
             if(!alreadyExists){
-                await Role.create([role] , {session});
+                await Role.create([role]);
             }
         }
 
 
         // filter out permissions for each user role
-        const fetchedPermissions = await Permission.find({name : {$in : permissions.map((permission)=>permission.name)}});
+        const fetchedPermissions = await Permission.find();
         const permissionsForSuperAdmin = fetchedPermissions.map((permission)=> permission._id) as Types.ObjectId[];
+
+        console.log(JSON.stringify(permissionsForSuperAdmin));
 
         const permissionsForAdmin = fetchedPermissions.filter((permission)=>{
             return permission.name !== "update";
         }).map((permission)=> permission._id) as Types.ObjectId[];
 
+        console.log(JSON.stringify(permissionsForAdmin));
+
         const permissionsForUser = fetchedPermissions.filter((permission)=>{
             return permission.name === "view";
-        }).map((permission)=> permission._id) as Types.ObjectId[];;
+        }).map((permission)=> permission._id) as Types.ObjectId[];
+
+        console.log(JSON.stringify(permissionsForUser));
 
         // assign permissions to roles
-        const dbRoles = await Role.find({name : {$in : roles.map((role)=>role.name)}});
+        const dbRoles = await Role.find();
         
-        dbRoles.forEach((role)=>{
+           for(const role of dbRoles){
             if(role.name === "super_admin"){
                 role.permissions = permissionsForSuperAdmin;
             }
-            if(role.name === "admin"){
+            else if(role.name === "admin"){
                 role.permissions = permissionsForAdmin;
             }
-            if(role.name === "user"){
+            else if(role.name === "user"){
                 role.permissions = permissionsForUser;
             }
-            role.save({session});
-        });
+            await role.save({session});
+        }
 
         await session.commitTransaction();
         console.log("seedRolesAndPermissions ----------> roles seeded into DB!");
