@@ -30,9 +30,10 @@ body("password")
   .withMessage("Please enter your password")
   .isLength({ min: 6 })
   .withMessage("Password must be at least 6 characters long"),
-body("role")
+body("roleId")
  .notEmpty()
-  .withMessage("Please select a role"),
-
+  .withMessage("Please select a roleId")
+  .isMongoId()
+  .withMessage("Please select a valid roleId"),
   validateRequest,
 ];

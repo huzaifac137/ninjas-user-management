@@ -4,6 +4,6 @@ import { verifyToken } from "../middlewares";
 const permissionRouter = Router();
 
 // for public access from frontend
-permissionRouter.get("/", verifyToken , getAllPermissions);
+permissionRouter.get("/" , getAllPermissions);
 
 export default permissionRouter;

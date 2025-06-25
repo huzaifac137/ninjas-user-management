@@ -59,7 +59,7 @@ export const Signup = async (req: Request, res: Response) => {
 // all users can login using this
 export const Login = async (req: Request, res: Response) => {
   try {
-    const { email, role, password } = req.body;
+    const { email, roleId, password } = req.body;
 
       let user = await User.findOne({
         email: email.toLowerCase(),
@@ -72,12 +72,19 @@ export const Login = async (req: Request, res: Response) => {
         return;
       }
 
+      const existingRole = await Role.findById(roleId);
+      if(!existingRole){
+        res.status(StatusCodes.CONFLICT).json({ message: "Role does not exist" });
+        return;
+      }
 
-      if (user?.role !== role) {
+
+
+      if (user?.role?.toString() !== existingRole?._id?.toString()) {
         res
           .status(403)
           .json({
-            messgae: "This account is not associated with this type of user",
+            messgae: "This account is not associated with this role",
           });
         return;
       }
