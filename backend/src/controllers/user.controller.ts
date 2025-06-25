@@ -89,8 +89,10 @@ export const updateUser=async(req: Request , res: Response)=>{
             return;
         }
 
-        const existingUserEmail = await User.findOne({
-            email: req.body.email.toLowerCase(),
+        if(email){
+          
+          const existingUserEmail = await User.findOne({
+            email: email.toLowerCase(),
           });
           
           if(existingUserEmail && existingUserEmail.id !== user.id){
@@ -98,6 +100,7 @@ export const updateUser=async(req: Request , res: Response)=>{
             return;
           }
 
+        }
 
         if(name){
             user.name=name;
@@ -130,6 +133,11 @@ export const deleteUser=async(req: Request , res: Response)=>{
           res.status(400).json({message : "Cannot delete a super admin from the app"});
           return;
         }
+
+        if(user?._id?.toString()===req?.dbUser?._id?.toString()){
+          res.status(400).json({message : "Cannot delete yourself"});
+          return;
+        }
         
         await user.deleteOne();
         res.status(201).json({message : "User deleted"});
@@ -141,8 +149,7 @@ export const deleteUser=async(req: Request , res: Response)=>{
 // only super admin
 export const assignRoleToUser=async(req: Request , res: Response)=>{
     try { 
-        const {userId} = req.params;
-        const {roleId} = req.body;
+        const {userId , roleId} = req.params;
         const existingUserRole = await Role.findById(roleId);
 
           if (!existingUserRole) {
@@ -151,14 +158,22 @@ export const assignRoleToUser=async(req: Request , res: Response)=>{
           }
          
           if(existingUserRole?.name==="super_admin"){
-              res.status(400).json({message : "Only you/yourself can be super admin, cannot make another person super admin"});
+              res.status(400).json({message : "Cannot assign super admin role to someone"});
               return;
           }
 
-          const user=await User.findById(userId);
+          const user=await User.findById(userId).populate({
+            path : "role",
+            select : "name"
+          });
 
           if(!user){
             res.status(404).json({message:"User not found"});
+            return;
+          }
+
+          if((user?.role as IRole)?.name==="super_admin"){
+            res.status(400).json({message : "Cannot change role of super admin"});
             return;
           }
 
