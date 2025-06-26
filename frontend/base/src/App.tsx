@@ -3,14 +3,26 @@ import "./App.css";
 import { serverLink } from "./serverLink/server";
 import axios from "axios";
 import { AuthContext } from "./context/AuthContext";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
+
+interface IUser {
+  _id: string;
+  name: string;
+  email: string;
+}
 function App() {
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoading2, setIsLoading2] = useState(false);
   const [error, setError] = useState("");
   const [roleName, setRoleName] = useState("");
   const [activeTab, setActiveTab] = useState("details");
-  const { user, isLoading: authLoading, logout } = useContext(AuthContext);
+  const [users, setUsers] = useState<IUser[]>([]);
+  const {
+    user,
+    isLoading: authLoading,
+    logout,
+    token,
+  } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -28,6 +40,7 @@ function App() {
 
       const matchedRole = roles.find((r) => r._id === user.role._id);
       if (!matchedRole) {
+        setIsLoading(false);
         setError("Role not found");
         return;
       }
@@ -39,6 +52,7 @@ function App() {
       };
 
       setRoleName(nameMap[matchedRole.name] || matchedRole.name);
+      setIsLoading(false);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         setError(
@@ -48,6 +62,58 @@ function App() {
       } else {
         setError(error?.toString() || "");
         setIsLoading(false);
+      }
+    }
+  };
+
+  const fetchAllUsers = async () => {
+    try {
+      setIsLoading2(true);
+      setError("");
+      const response = await axios.get(`${serverLink}users`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const users = response?.data?.users || [];
+      if (users.length === 0) {
+        setIsLoading2(false);
+        setError("No users found");
+        return;
+      }
+
+      setUsers(response?.data?.users);
+      setIsLoading2(false);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        setError(
+          error?.response?.data?.message || error?.response?.data?.error
+        );
+        setIsLoading2(false);
+      } else {
+        setError(error?.toString() || "");
+        setIsLoading2(false);
+      }
+    }
+  };
+
+  const deleteAUser = async (userId: string) => {
+    try {
+      await axios.delete(`${serverLink}users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      fetchAllUsers();
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        setError(
+          error?.response?.data?.message || error?.response?.data?.error
+        );
+      } else {
+        setError(error?.toString() || "");
       }
     }
   };
@@ -84,12 +150,21 @@ function App() {
           >
             Logout
           </button>
+
+          {isLoading && (
+            <div className="text-center text-sm text-blue-600 animate-pulse mb-4">
+              Loading role info...
+            </div>
+          )}
         </div>
 
         <div className="flex justify-center space-x-4 mb-6">
           {isAdmin && (
             <button
-              onClick={() => setActiveTab("users")}
+              onClick={() => {
+                fetchAllUsers();
+                setActiveTab("users");
+              }}
               className={`px-4 py-2 rounded-xl text-sm font-semibold ${
                 activeTab === "users"
                   ? "bg-blue-600 text-white"
@@ -122,10 +197,57 @@ function App() {
         <div className="mt-4">
           {activeTab === "users" && isAdmin && (
             <div className="space-y-3">
-              <h4 className="text-lg font-semibold text-gray-800">
-                User Management
-              </h4>
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-lg font-semibold text-gray-800">
+                  User Management
+                </h4>
+                <button
+                  onClick={() => navigate("/users")}
+                  className="bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-xl transition"
+                >
+                  Create User
+                </button>
+              </div>
 
+              {isLoading2 ? (
+                <div className="text-sm text-blue-600 animate-pulse">
+                  Loading users...
+                </div>
+              ) : (
+                <>
+                  {users.length === 0 ? (
+                    <p className="text-sm text-gray-500">No users found.</p>
+                  ) : (
+                    users.map((user) => (
+                      <div
+                        key={user?._id}
+                        className="flex items-center justify-between bg-gray-50 rounded-xl p-4 shadow-sm hover:shadow-md transition duration-200"
+                      >
+                        <div>
+                          <p className="text-base font-medium text-gray-800">
+                            {user?.name}
+                          </p>
+                          <p className="text-sm text-gray-500">{user?.email}</p>
+                        </div>
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => navigate(`/users/${user?._id}`)}
+                            className="text-sm bg-blue-100 text-blue-600 px-3 py-1 rounded-lg hover:bg-blue-200 transition"
+                          >
+                            Details & Actions
+                          </button>
+                          <button
+                            onClick={() => deleteAUser(user?._id)}
+                            className="text-sm bg-red-100 text-red-600 px-3 py-1 rounded-lg hover:bg-red-200 transition"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </>
+              )}
             </div>
           )}
 
@@ -136,10 +258,10 @@ function App() {
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="p-4 bg-gray-100 rounded-xl">
-                  <strong>Name:</strong> {user.name}
+                  <strong>Name:</strong> {user?.name || "N/A"}
                 </div>
                 <div className="p-4 bg-gray-100 rounded-xl">
-                  <strong>Email:</strong> {user.email}
+                  <strong>Email:</strong> {user?.email || "N/A"}
                 </div>
               </div>
             </div>

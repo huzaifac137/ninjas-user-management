@@ -25,7 +25,10 @@ export const getUserById=async(req: Request , res: Response)=>{
     try {
          const dbUser = req?.dbUser;
 
-        const user=await User.findById(req.params.id).select("name email");
+        const user=await User.findById(req.params.id).populate({
+          path : "role",
+          select :"name"
+        }).select("name email role");
         if(!user){
             res.status(404).json({message:"User not found"});
             return;
@@ -92,11 +95,18 @@ export const updateUser=async(req: Request , res: Response)=>{
     try {
         const {name , email} = req.body;
 
-
-        const user=await User.findById(req.params.id);
+        const user=await User.findById(req.params.id).populate({
+          path : "role",
+          select :"name"
+        });
         if(!user){
             res.status(404).json({message:"User not found"});
             return;
+        }
+
+        if((user?.role as IRole)?.name==="super_admin"){
+          res.status(403).json({message : "Cannot update a super admin"});
+          return;
         }
 
         if(email){
