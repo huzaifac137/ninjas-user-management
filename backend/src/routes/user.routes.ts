@@ -12,9 +12,9 @@ userRouter.get("/", verifyToken, isSuperAdminOrAdmin, getAllUsers);
 userRouter.get("/:id", verifyToken, isSuperAdminOrAdmin , getUserById);
 userRouter.get("/me/details", verifyToken, getMyDetails);
 userRouter.post("/", validateCreateUser , verifyToken, isSuperAdminOrAdmin, createUser);
-userRouter.put("/:id", validateUpdateUser , verifyToken, isSuperAdmin, updateUser);
+userRouter.patch("/:id", validateUpdateUser , verifyToken, isSuperAdmin, updateUser);
 userRouter.delete("/:id", verifyToken, isSuperAdminOrAdmin, deleteUser);
-userRouter.put("/:userId/role/:roleId", verifyToken, isSuperAdminOrAdmin, assignRoleToUser);
+userRouter.patch("/:userId/role/:roleId", verifyToken, isSuperAdminOrAdmin, assignRoleToUser);
 
 // seeders (only to be used by backend dev , hidden from UI)
 userRouter.post("/roles-permissions/seed-it" , isSeeder , seedRolesAndPermissions);

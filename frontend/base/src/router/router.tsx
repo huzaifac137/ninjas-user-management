@@ -4,6 +4,7 @@ import ProtectedRoute from "../components/protectedRoute/protectedRoute";
 import App from "../App";
 import UserDetails from "../pages/user/details/UserDetails";
 import CreateUser from "../pages/user/create/CreateUser";
+import EditUser from "../pages/user/edit/EditUser";
 
 export const router = (
   <BrowserRouter>
@@ -30,6 +31,14 @@ export const router = (
         element={
           <ProtectedRoute>
             <CreateUser />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/users/edit/:id"
+        element={
+          <ProtectedRoute>
+            <EditUser />
           </ProtectedRoute>
         }
       />

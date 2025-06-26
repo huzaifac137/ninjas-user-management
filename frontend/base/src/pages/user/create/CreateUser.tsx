@@ -10,7 +10,7 @@ interface Role {
   name: string;
 }
 const CreateUser = () => {
-  const { user, token } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
   const [roles, setRoles] = useState<Role[]>([]);
   const [formData, setFormData] = useState({
     name: "",
