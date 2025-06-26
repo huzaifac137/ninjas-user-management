@@ -36,6 +36,16 @@ export const getUserById=async(req: Request , res: Response)=>{
     }
 }
 
+// for everyone
+export const getMyDetails=async(req: Request , res: Response)=>{
+  try {
+       const dbUser = req?.dbUser;
+      res.status(200).json({message:"User fetched successfully",user: dbUser});
+  } catch (error) {
+      res.status(500).json({message:"Error fetching user : " + error.message});
+  }
+}
+
 // only super admin or admin
 export const createUser=async(req: Request , res: Response)=>{
     try {

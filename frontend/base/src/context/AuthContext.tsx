@@ -16,6 +16,7 @@ interface AuthContextType {
   user: ILoggedInUser;
   setToken: (token: string) => void;
   setUser: (user: ILoggedInUser) => void;
+  logout : () => void;
   isLoading:boolean;
 }
 
@@ -31,6 +32,7 @@ export const AuthContext = createContext<AuthContextType>({
   },
   setToken: () => {},
   setUser: () => {},
+  logout: ()=> {},
   isLoading:true
 });
 
@@ -67,8 +69,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUserState(newUser);
   };
 
+  const logout = () => {
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("auth_user");
+    setTokenState("");
+    setUserState({ name: "", email: "" , role : {
+        _id : "",
+        name : ""
+    } });
+  };
+  
+
   return (
-    <AuthContext.Provider value={{ token, user, setToken, setUser , isLoading }}>
+    <AuthContext.Provider value={{ token, user, setToken, setUser , isLoading, logout }}>
       {children}
     </AuthContext.Provider>
   );

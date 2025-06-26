@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { verifyToken, isSuperAdminOrAdmin} from "../middlewares/index";
-import { getAllUsers, getUserById, createUser, updateUser, deleteUser, assignRoleToUser } from "../controllers/index";
+import { getAllUsers, getUserById, createUser, updateUser, deleteUser, assignRoleToUser, getMyDetails } from "../controllers/index";
 import { seedRolesAndPermissions } from "../seeders/rolesAndPermissions";
 import { isSuperAdmin } from "../middlewares/isSuperAdmin";
 import { isSeeder } from "../middlewares/isSeeder";
@@ -10,6 +10,7 @@ const userRouter = Router();
 // for public access from frontend
 userRouter.get("/", verifyToken, isSuperAdminOrAdmin, getAllUsers);
 userRouter.get("/:id", verifyToken, isSuperAdminOrAdmin , getUserById);
+userRouter.get("/me/details", verifyToken, getMyDetails);
 userRouter.post("/", validateCreateUser , verifyToken, isSuperAdminOrAdmin, createUser);
 userRouter.put("/:id", validateUpdateUser , verifyToken, isSuperAdmin, updateUser);
 userRouter.delete("/:id", verifyToken, isSuperAdminOrAdmin, deleteUser);

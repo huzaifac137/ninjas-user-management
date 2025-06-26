@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { serverLink } from "../../serverLink/server";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../context/AuthContext";
