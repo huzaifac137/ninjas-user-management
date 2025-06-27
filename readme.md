@@ -1,12 +1,14 @@
 # 🌟 User Management (Frontend + Backend)
 
 This project provides a **complete user management system** including:
+
 ✅ React.js with tailwindcss + APIs integrated with Node.js (Express + Typescript) Backend.
 ✅ Authentication (login, super admin signup)  
 ✅ Role and permission management  
 ✅ Secure CRUD operations on users  
 ✅ Role assignment  
 ✅ API documentation with Swagger. 
+✅ Backend with Docker implementation (it can be dockerized and deployed as container or locally tested) 
 
 ---
 
