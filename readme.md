@@ -19,6 +19,9 @@ This project provides a **complete user management system** including:
 ✅ HTTP Request Logger Attached.
 ✅ Safe Headers Attached, CORS Enabled.
 
+## Notes:
+I Have pushed env file so you can use the live mongodb atlas database, otherwise i wouldnt have pushed it in the repo. Thanks.
+
 
 ---
 
