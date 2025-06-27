@@ -172,6 +172,17 @@ paths:
   /api/v1/users/roles-permissions/seed-it:
     post:
       summary: Seed roles and permissions (internal use)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                secret:
+                  type: string
+                  description: The secret key for seeding (see the seeder middleware)
+                  example: "my-secret-key"
       responses:
         "200":
           description: Seeded successfully

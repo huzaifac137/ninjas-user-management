@@ -6,8 +6,9 @@ This project provides a **complete user management system** including:
 ✅ Authentication (login, super admin signup)  
 ✅ Role and permission management  
 ✅ Secure CRUD operations on users  
-✅ Role assignment  
+✅ Role assignment.
 ✅ API documentation with Swagger. 
+
 ✅ Backend with Docker implementation (it can be dockerized and deployed as container or locally tested) 
 
 ---
@@ -110,3 +111,16 @@ npm run dev
 
 📄 License
 MIT License
+
+## 📦 Dockerized Backend (if you dont want to run backend using code)
+
+## -- For using backend in docker -----
+
+docker pull huzaifac137/ninjas-code-ums
+
+docker run -p 3001:3001 -d huzaifac137/ninjas-code-ums
+
+Now you can access backend at http://localhost:3001/
+
+
+
