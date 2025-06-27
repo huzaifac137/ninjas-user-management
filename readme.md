@@ -1,9 +1,11 @@
 # 🌟 User Management (Frontend + Backend)
 
 This project provides a **complete user management system** including:
+
 ✅ Typescript for Type Safety on Backend and Frontend.
 
 ✅ React.js with tailwindcss + APIs integrated with Node.js (Express + Typescript) Backend.
+
 ✅ Authentication (login, super admin signup)  
 ✅ Role and permission management  
 ✅ Secure CRUD operations on users  
