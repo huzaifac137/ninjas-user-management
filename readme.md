@@ -1,15 +1,22 @@
 # 🌟 User Management (Frontend + Backend)
 
 This project provides a **complete user management system** including:
+✅ Typescript for Type Safety on Backend and Frontend.
 
 ✅ React.js with tailwindcss + APIs integrated with Node.js (Express + Typescript) Backend.
 ✅ Authentication (login, super admin signup)  
 ✅ Role and permission management  
 ✅ Secure CRUD operations on users  
 ✅ Role assignment.
+
 ✅ API documentation with Swagger. 
 
-✅ Backend with Docker implementation (it can be dockerized and deployed as container or locally tested) 
+✅ Backend with Docker implementation (it can be dockerized and deployed as container or locally tested) .
+
+✅ Rate Limiter Based on IP.
+✅ HTTP Request Logger Attached.
+✅ Safe Headers Attached, CORS Enabled.
+
 
 ---
 
@@ -121,6 +128,3 @@ docker pull huzaifac137/ninjas-code-ums
 docker run -p 3001:3001 -d huzaifac137/ninjas-code-ums
 
 Now you can access backend at http://localhost:3001/
-
-
-
