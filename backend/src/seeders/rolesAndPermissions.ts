@@ -12,7 +12,7 @@ export const permissions : IPermission[] = [{
     name : "update"
 },{
     name : "delete"
-}] as const;
+}];
 
 export const roles: IRole[] = [
     {
@@ -27,7 +27,7 @@ export const roles: IRole[] = [
         name: "user",
         permissions : []
     },
-] as const;
+];
 
 export const seedRolesAndPermissions=async(req: Request , res: Response)=>{
     const session = await mongoose.startSession();

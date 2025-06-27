@@ -7,15 +7,18 @@ import helmet from "helmet";
 import morgan from "morgan";
 import { authRouter, permissionRouter, roleRouter, userRouter } from "./routes/index";
 import { rateLimiter } from "./utils/rate-limit";
+import { swaggerSpec , swaggerUi } from "./services/swagger/swagger";
 dotenv.config();
 const app = express();
 
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 app.use(cors());
-app.use(helmet());
-app.use(morgan("tiny"))
-app.use(rateLimiter());
+app.use(helmet()); // secure headers
+app.use(morgan("tiny")) // http request logger
+app.use(rateLimiter()); // IP rate limiter
+
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec)); // API Documentation Setup using swagger
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users" , userRouter);
