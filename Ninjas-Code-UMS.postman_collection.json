@@ -1,0 +1,538 @@
+{
+	"info": {
+		"_postman_id": "de59a422-733e-4565-82dd-ce4ffc4b6e60",
+		"name": "Ninjas-Code-UMS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18277739"
+	},
+	"item": [
+		{
+			"name": "Seed Data",
+			"item": [
+				{
+					"name": "Seed roles and permissions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc0FkbWluIjpmYWxzZSwiX2lkIjoiNjc3ZWIzN2Y4MzVjZTllNjkwN2ZjMTA4IiwiaWF0IjoxNzQ5ODc3MTUwLCJleHAiOjE3NTI0NjkxNTB9.sY6LHvUhG25DG4PxwedPSUjrk6YEaLpCj3vPxMSInv4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/10.3.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"secret\" : \"2dwiodjqwufgefgweygfyegfwio4389849edug47438\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/users/roles-permissions/seed-it",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"roles-permissions",
+								"seed-it"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc0FkbWluIjpmYWxzZSwiX2lkIjoiNjc3ZWIzN2Y4MzVjZTllNjkwN2ZjMTA4IiwiaWF0IjoxNzQ5ODc3MTUwLCJleHAiOjE3NTI0NjkxNTB9.sY6LHvUhG25DG4PxwedPSUjrk6YEaLpCj3vPxMSInv4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/10.3.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"usertha@example.com\",\r\n    \"password\" : \"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "Get roles",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc0FkbWluIjpmYWxzZSwiX2lkIjoiNjc3ZWIzN2Y4MzVjZTllNjkwN2ZjMTA4IiwiaWF0IjoxNzQ5ODc3MTUwLCJleHAiOjE3NTI0NjkxNTB9.sY6LHvUhG25DG4PxwedPSUjrk6YEaLpCj3vPxMSInv4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/10.3.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"superadmin@example.com\",\r\n    \"password\" : \"12345678\",\r\n    \"role\" :\"hey\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/roles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Permissions",
+			"item": [
+				{
+					"name": "Get Permissions",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc0FkbWluIjpmYWxzZSwiX2lkIjoiNjc3ZWIzN2Y4MzVjZTllNjkwN2ZjMTA4IiwiaWF0IjoxNzQ5ODc3MTUwLCJleHAiOjE3NTI0NjkxNTB9.sY6LHvUhG25DG4PxwedPSUjrk6YEaLpCj3vPxMSInv4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/10.3.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"superadmin@example.com\",\r\n    \"password\" : \"12345678\",\r\n    \"role\" :\"hey\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/permissions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Manage users",
+			"item": [
+				{
+					"name": "Get all users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODViZGY0YWRjZGZlMzJkYmQ3ZWUxZWEiLCJpYXQiOjE3NTA4NTE0NTksImV4cCI6MTc1MzQ0MzQ1OX0.tqWjIFJ5fua0zWPLfTZFAWNBjAyLRMGJJ9t1EGUaPMs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/10.3.0"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/v1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get single user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODViZGY0YWRjZGZlMzJkYmQ3ZWUxZWEiLCJpYXQiOjE3NTA4NTE0NTksImV4cCI6MTc1MzQ0MzQ1OX0.tqWjIFJ5fua0zWPLfTZFAWNBjAyLRMGJJ9t1EGUaPMs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/10.3.0"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/v1/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "685bdf4adcdfe32dbd7ee1ea"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create person",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODViZGY0YWRjZGZlMzJkYmQ3ZWUxZWEiLCJpYXQiOjE3NTA4NTE0NTksImV4cCI6MTc1MzQ0MzQ1OX0.tqWjIFJ5fua0zWPLfTZFAWNBjAyLRMGJJ9t1EGUaPMs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/10.3.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"user-tha2\",\r\n    \"email\" : \"usertha2@example.com\",\r\n    \"password\" : \"12345678\",\r\n    \"roleId\" :\"685bde4469ffee36e721bdac\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update person",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODViZGY0YWRjZGZlMzJkYmQ3ZWUxZWEiLCJpYXQiOjE3NTA4NTE0NTksImV4cCI6MTc1MzQ0MzQ1OX0.tqWjIFJ5fua0zWPLfTZFAWNBjAyLRMGJJ9t1EGUaPMs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/10.3.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"admin-super\",\r\n    \"email\" : \"superadmin@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "685bdf4adcdfe32dbd7ee1ea"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign a role to person",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODViZGY0YWRjZGZlMzJkYmQ3ZWUxZWEiLCJpYXQiOjE3NTA4NTE0NTksImV4cCI6MTc1MzQ0MzQ1OX0.tqWjIFJ5fua0zWPLfTZFAWNBjAyLRMGJJ9t1EGUaPMs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/10.3.0"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/api/v1/users/:userId/role/:roleId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								":userId",
+								"role",
+								":roleId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "685c0bab24796825f502976b"
+								},
+								{
+									"key": "roleId",
+									"value": "685bde4469ffee36e721bdac"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete person",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODViZGY0YWRjZGZlMzJkYmQ3ZWUxZWEiLCJpYXQiOjE3NTA4NTE0NTksImV4cCI6MTc1MzQ0MzQ1OX0.tqWjIFJ5fua0zWPLfTZFAWNBjAyLRMGJJ9t1EGUaPMs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "User-Agent",
+								"value": "insomnia/10.3.0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"admin-super\",\r\n    \"email\" : \"superadmin@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "685c069a24796825f502975c"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Signup - super admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc0FkbWluIjpmYWxzZSwiX2lkIjoiNjc3ZWIzN2Y4MzVjZTllNjkwN2ZjMTA4IiwiaWF0IjoxNzQ5ODc3MTUwLCJleHAiOjE3NTI0NjkxNTB9.sY6LHvUhG25DG4PxwedPSUjrk6YEaLpCj3vPxMSInv4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "User-Agent",
+						"value": "insomnia/10.3.0"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"super admin\",\r\n    \"email\" : \"superadmin@example.com\",\r\n    \"password\" : \"12345678\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/v1/auth/signup/super-admin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"signup",
+						"super-admin"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

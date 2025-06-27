@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { use, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../../../context/AuthContext";
@@ -22,13 +22,14 @@ const UserDetails: React.FC = () => {
   const [roles, setRoles] = useState<Role[]>([]);
   const [selectedRole, setSelectedRole] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+  const [editingAllowed, setEditingAllowed] = useState(true);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [error, setError] = useState("");
   const [isAssigning, setIsAssigning] = useState(false);
 
   const navigate = useNavigate("");
 
-  const { token } = useContext(AuthContext);
+  const { token , user:loggedInUser } = useContext(AuthContext);
 
   const fetchUser = async () => {
     try {
@@ -39,6 +40,8 @@ const UserDetails: React.FC = () => {
       });
       setUser(res?.data?.user);
       setLoading(false);
+      
+
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         setError(error?.response?.data?.message || error?.response?.data?.error);
@@ -55,6 +58,18 @@ const UserDetails: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setRoles(res?.data?.roles || []);
+
+      const allRoles : Role[]= res?.data?.roles || [];
+      const loggedInRole = loggedInUser?.role;
+       
+      setEditingAllowed(false);
+      for(const role of allRoles){
+        if(role?._id === loggedInRole?._id && role.name==="super_admin"){
+          setEditingAllowed(true);
+          break;
+        }
+      }
+      fetchUser();
     } catch (error:unknown) {
         if (axios.isAxiosError(error)) {
             setError(error?.response?.data?.message || error?.response?.data?.error);
@@ -89,7 +104,6 @@ const UserDetails: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchUser();
     fetchRoles();
   }, []);
 
@@ -103,7 +117,12 @@ const UserDetails: React.FC = () => {
         <div className="text-center text-red-600 mb-4">{error}</div>
       )}
 
-      <div className="space-y-3 text-gray-700">
+      {loading ? (
+        <div className="text-center text-sm text-blue-600 animate-pulse mb-4">
+          Loading user info...
+        </div>
+      ) : (
+        <div className="space-y-3 text-gray-700">
         <div>
           <span className="font-semibold">Name:</span> {user?.name}
         </div>
@@ -115,9 +134,9 @@ const UserDetails: React.FC = () => {
           {user?.role?.name?.charAt(0)?.toUpperCase() +
             user?.role?.name?.slice(1)?.replace("_", " ")}
         </div>
-      </div>
+      </div> )}
 
-      <div className="mt-6 flex gap-4 justify-center">
+    { editingAllowed ? <div className="mt-6 flex gap-4 justify-center">
         <button
           className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
           onClick={() => navigate(`/users/edit/${user?._id}`)}
@@ -130,7 +149,8 @@ const UserDetails: React.FC = () => {
         >
           Assign Role
         </button>
-      </div>
+      </div> : <h3 className="text-center text-red-600">Only super admin can edit user details</h3> }
+
 
       {/* Modal */}
       {modalOpen && (
