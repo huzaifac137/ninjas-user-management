@@ -125,8 +125,9 @@ MIT License
 
 ## -- For using backend in docker -----
 
-docker pull huzaifac137/ninjas-code-ums
+docker pull huzaifac137/ninjas-code-ums:v2 (this is latest)
+docker pull huzaifac137/ninjas-code-ums:latest (this is first version , older one)
 
-docker run -p 3001:3001 -d huzaifac137/ninjas-code-ums
+docker run -p 3001:3001 -d huzaifac137/ninjas-code-ums:v2
 
 Now you can access backend at http://localhost:3001/

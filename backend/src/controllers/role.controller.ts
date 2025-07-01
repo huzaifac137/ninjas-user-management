@@ -77,9 +77,7 @@ export const removePermissionsFromRole=async(req: Request , res: Response)=>{
         });
 
         const permissionsAsIds = permissions.map((permission)=>permission._id) as Types.ObjectId[];
-        console.log(permissionsAsIds);
         const filteredPermissionIds = permissionsAsIds.filter((id)=>role?.permissions?.includes(id)===false);
-        console.log(filteredPermissionIds);
         role.permissions = filteredPermissionIds;
 
         await role.save();

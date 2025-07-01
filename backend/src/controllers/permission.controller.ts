@@ -23,7 +23,7 @@ export const createPermission=async(req: Request , res: Response)=>{
         }
         const permission = await Permission.create({name});
         
-        res.status(200).json({permission});
+        res.status(200).json({permission , message : "Permission created successfully"});
     }
     catch(err){
         res.status(500).json({ message: "Error creating permission: " + err?.message });

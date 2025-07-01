@@ -45,6 +45,22 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Permission"
+    post:
+      summary: Create new permission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  default: "any-permission"
+      responses:
+        "200":
+          description: Permission created successfully
+
   /api/v1/roles:
     get:
       summary: Get all roles
@@ -57,6 +73,22 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Role"
+    post:  
+      summary: Create new role
+      requestBody:
+          required: true
+          content:
+           application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  default: "any-role"
+      responses:
+        "200":
+          description: Role created successfully
+  
   /api/v1/users:
     get:
       summary: Get all users
@@ -186,6 +218,48 @@ paths:
       responses:
         "200":
           description: Seeded successfully
+
+  /api/v1/roles/assign-permissions:
+    patch:
+      summary: Assign new permissions to role
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssignRemovePermissionsRequest"
+      responses:
+        "200":
+          description: Permissions assigned successfully
+
+  /api/v1/roles/remove-permissions:
+    delete:
+      summary: remove permissions from role
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssignRemovePermissionsRequest"
+      responses:
+        "200":
+          description: Permissions removed successfully
+
+  /api/v1/permissions/{permissionId}:
+    delete:
+      summary: Delete permission from app
+      parameters:
+        - name: permissionId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Permission deleted successfully
+
+
+
 components:
   schemas:
     SignupRequest:
@@ -247,6 +321,15 @@ components:
         email:
           type: string
           format: email
+    AssignRemovePermissionsRequest:
+      type: object
+      properties:
+        roleId:
+          type: string
+        permissionIds:
+          type: array
+          items:
+            type: string
     User:
       type: object
       properties:
