@@ -73,3 +73,24 @@ body("email")
   .withMessage("Email must be valid"),
   validateRequest
 ]
+
+export const createRoleValidation=[
+  body("name")
+  .notEmpty()
+  .withMessage("Please enter your name"),
+  validateRequest
+]
+
+export const assignPermissionsValidation=[
+  body("roleId")
+  .notEmpty()
+  .withMessage("Please select a roleId")
+  .isMongoId()
+  .withMessage("Please select a valid roleId"),
+  body("permissionIds")
+  .notEmpty()
+  .withMessage("Please select at least one permission")
+  .isArray()
+  .withMessage("PermissionIds must be array of ids"),
+  validateRequest
+]
